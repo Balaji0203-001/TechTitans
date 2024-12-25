@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
         const totalExpenditure = bills.reduce((sum, bill) => sum + parseFloat(bill.amount), 0);
         const totalBillPaid = bills.length;
-        const remainingBalance = 10000 - totalExpenditure; // Assuming budget is 10000
+        const remainingBalance = 60000 - totalExpenditure; // Assuming budget is 10000
 
         noOfBillsElement.textContent = bills.length;
         noOfSuppliersElement.textContent = suppliers.length;
@@ -322,8 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
         newItemRow.classList.add('item-row');
         newItemRow.innerHTML = `
             <input type="text" class="item-name" placeholder="Item Name" required>
-            <input type="number" class="item-quantity" placeholder="Quantity" value="1" required>
-            <input type="number" class="item-price" placeholder="Price per item" value="0" required>
+            <input type="number" class="item-quantity" placeholder="No of Quantity" required>
+            <input type="number" class="item-price" placeholder="Price per item" required>
             <button type="button" class="remove-item-button">
                 <i class="fas fa-times"></i>
             </button>

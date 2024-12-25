@@ -8,20 +8,26 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="icon" href="LOGO.png"type="image/x-icon" />
 </head>
 
 <body>
-    <header class="dashboard-header animate__animated animate__fadeInDown">
-        <div class="header-logo">Tech<span style="color: #2563eb;">Titans</span></div>
-        <button class="logout-button" id="logoutButton">Logout</button>
+    <header class="dashboard-header">
+        <div class="logo"><h2><b>TECH TITANS</b></h2></div>
+        <div class="user-settings">
+            <i class="fas fa-user-circle fa-2x"></i> <i class="fas fa-caret-down"></i>
+            <div class="user-settings-dropdown">
+                <a href="#" id="profileLink">Profile</a>
+                <a href="#" id="settingsLink">Settings</a>
+                <a href="#" id="logoutButton">Logout</a>
+            </div>
+        </div>
     </header>
-
     <div class="dashboard-container">
         <aside class="sidebar animate__animated animate__fadeInLeft">
             <h2>Menu</h2>
             <ul>
-                <li><a href="#" id="dashboardLink" class="active"><i class="fas fa-chart-pie"></i>
-                        <span>Dashboard</span></a></li>
+                <li><a href="#" id="dashboardLink" class="active"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
                 <li><a href="#" id="viewBills"><i class="fas fa-file-invoice"></i> <span>View Bills</span></a></li>
                 <li><a href="#" id="searchBills"><i class="fas fa-search"></i> <span>Search Bills</span></a></li>
                 <li><a href="#" id="addSupplier"><i class="fas fa-truck-loading"></i> <span>Add Supplier</span></a></li>
@@ -32,7 +38,6 @@
         </aside>
 
         <main class="main-content animate__animated animate__fadeIn">
-
             <div class="card dashboard-section" id="dashboardSection">
                 <div class="card-header">
                     <h2 class="card-title">Dashboard</h2>
@@ -62,11 +67,6 @@
                         <i class="fas fa-wallet"></i>
                         <span class="box-title">Remaining Balance</span>
                         <span class="box-value" id="remainingBalance">0</span>
-                    </div>
-                    <div class="dashboard-box related-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span class="box-title">Related Info</span>
-                        <p>This section will display some relevant information or quick actions.</p>
                     </div>
                 </div>
             </div>
@@ -193,23 +193,41 @@
 
             <div class="card supplier-section" id="supplierSection" style="display:none;">
                 <div class="card-header">
-                    <h2 class="card-title">Your Suppliers</h2>
+                    <h2 class="card-title">Suppliers</h2>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>Supplier Name</th>
                             <th>Contact</th>
-                            <th>Shop</th>
+                            <th>Shop Name</th>
                             <th>Address</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="suppliersTableBody"></tbody>
                 </table>
             </div>
+            <!-- <div class="card export-import-section">
+                <div class="card-header">
+                    <h2 class="card-title">Export/Import Data</h2>
+                </div>
+                <div class="card-content">
+                    <button id="exportButton">Export Data</button>
+                    <input type="file" id="importInput" accept=".json">
+                </div>
+            </div> -->
         </main>
     </div>
+
+    <div id="itemsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Bill Items</h2>
+            <div id="itemsList"></div>
+        </div>
+    </div>
+
     <script src="dashboard.js"></script>
 </body>
 
