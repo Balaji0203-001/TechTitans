@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Variable declarations
+    // Variable Declarations
     const viewBillsLink = document.getElementById('viewBills');
     const searchBillsLink = document.getElementById('searchBills');
     const addSupplierLink = document.getElementById('addSupplier');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardSection = document.getElementById('dashboardSection');
     const sections = [billSection, totalsSection, searchSection, addBillSection, addSupplierSection, supplierSection, dashboardSection];
 
-    // Form and input elements
+    // Form and Input Elements
     const addBillForm = document.getElementById('addBillForm');
     const addSupplierForm = document.getElementById('addSupplierForm');
     const addMoreItemsButton = document.getElementById('addMoreItemsButton');
@@ -29,16 +29,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.search-input');
     const filterSelect = document.querySelector('.filter-select');
 
-    // Table body elements
+    // Table Body Elements
     const billsTableBody = document.getElementById('billsTableBody');
     const suppliersTableBody = document.getElementById('suppliersTableBody');
     const searchResultsTableBody = document.getElementById('searchResults');
 
-    // Loading spinners
+    // Loading Spinners
     const loadingSpinnerBill = document.getElementById('loadingSpinnerBill');
     const loadingSpinnerSupplier = document.getElementById('loadingSpinnerSupplier');
 
-    // Dashboard elements
+    // Dashboard Elements
     const noOfBillsElement = document.getElementById('noOfBills');
     const noOfSuppliersElement = document.getElementById('noOfSuppliers');
     const totalBillPaidElement = document.getElementById('totalBillPaid');
@@ -46,7 +46,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const remainingBalanceElement = document.getElementById('remainingBalance');
     const totalAmountDisplay = document.getElementById('totalAmount');
 
-    // Add Modal HTML
+    const userInfo = document.getElementById('user-info-toggle');
+    const dropdown = document.getElementById('user-dropdown');
+    const profileLink = document.getElementById('profile-link');
+    const passwordLink = document.getElementById('password-link');
+    const logoutLink = document.getElementById('logout-link');
+    const toast = document.getElementById('toast');
+    const toastContent = document.getElementById('toast-content');
+
+    // User Info and Dropdown Functionality
+    if (userInfo && dropdown && profileLink && passwordLink && logoutLink && toast && toastContent) {
+        userInfo.addEventListener('click', () => {
+            dropdown.classList.toggle('show');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (!userInfo.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function showToast(message) {
+            toastContent.innerHTML = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        profileLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            showToast("<div><h2>Profile</h2><p>User details go here...</p></div>");
+        });
+
+        passwordLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            showToast(`<div><h2>Change Password</h2>
+            <input type="password" placeholder="Old Password">
+            <input type="password" placeholder="New Password">
+            <input type="password" placeholder="Confirm Password">
+            <button>Change Password</button>
+            </div>`);
+        });
+
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = "index.html";
+        });
+    }
+
+    // Modal for Items
     const modalHTML = `
     <div id="itemsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
         <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px;">
@@ -57,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Add styles for new buttons
+    // Styles for New Buttons
     const style = document.createElement('style');
     style.textContent = `
         .view-items-button {
@@ -109,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showItems(items) {
         const modal = document.getElementById('itemsModal');
         const itemsList = document.getElementById('itemsList');
-        
+
         let itemsHTML = `
             <table class="items-table" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <thead>
@@ -121,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 </thead>
                 <tbody>`;
-        
+
         items.forEach(item => {
             const total = parseFloat(item.quantity) * parseFloat(item.price);
             itemsHTML += `
@@ -155,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             returnPaidByCell.textContent = bill.returnPaidBy || "-";
             amountCell.textContent = `₹${parseFloat(bill.amount).toFixed(2)}`;
             dateCell.textContent = bill.billDate;
-            
+
             actionsCell.innerHTML = `
                 <button class="view-items-button" data-index="${index}">
                     <i class="fas fa-eye"></i> View Items
@@ -183,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nameCell.textContent = supplier.supplierName;
             contactCell.textContent = supplier.supplierContact;
             shopCell.textContent = supplier.supplierShop;
-            addressCell.innerHTML = supplier.supplierAddress ? 
+            addressCell.innerHTML = supplier.supplierAddress ?
                 `<a href="${supplier.supplierAddress}" target="_blank" class="map-link">
                     <i class="fas fa-map-marker-alt"></i> View on Map
                 </a>` : "-";
@@ -197,49 +246,59 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function searchBillsFunction() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filterValue = filterSelect.value;
-        const bills = JSON.parse(localStorage.getItem('bills')) || [];
-
+        const searchTerm = searchInput.value.toLowerCase(); // Text entered by the user
+        const filterValue = filterSelect.value; // Number of days selected in the filter
+        const bills = JSON.parse(localStorage.getItem('bills')) || []; // Fetch stored bills
+    
+        // Filter the bills based on search term and date condition
         const filteredBills = bills.filter(bill => {
             let dateFilterCondition = true;
+    
+            // Apply the date filter only if filterValue is not 'all'
             if (filterValue !== 'all') {
-                const billDate = new Date(bill.billDate);
-                const today = new Date();
-                const diffTime = Math.abs(today - billDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                dateFilterCondition = diffDays <= parseInt(filterValue);
+                const billDate = new Date(bill.billDate); // Convert bill date to Date object
+                const today = new Date(); // Get today's date
+                const diffTime = today - billDate; // Difference in milliseconds
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert to days
+    
+                // Check if the bill date is within the selected number of days
+                dateFilterCondition = diffDays <= parseInt(filterValue) && diffTime >= 0;
             }
+    
+            // Search by shop name or amount, and apply the date filter
             return (
-                (bill.shopName.toLowerCase().includes(searchTerm) || 
-                bill.amount.toString().includes(searchTerm)) && 
+                (bill.shopName.toLowerCase().includes(searchTerm) ||
+                    bill.amount.toString().includes(searchTerm)) &&
                 dateFilterCondition
             );
         });
-
-        displaySearchResults(filteredBills);
+    
+        displaySearchResults(filteredBills); // Display the filtered bills
     }
-
+    
     function displaySearchResults(bills) {
-        searchResultsTableBody.innerHTML = "";
+        searchResultsTableBody.innerHTML = ""; // Clear previous results
+    
+        // Populate the table with filtered bills
         bills.forEach(bill => {
             const row = searchResultsTableBody.insertRow();
             const shopCell = row.insertCell();
             const amountCell = row.insertCell();
             const dateCell = row.insertCell();
-
+    
             shopCell.textContent = bill.shopName;
             amountCell.textContent = `₹${parseFloat(bill.amount).toFixed(2)}`;
             dateCell.textContent = bill.billDate;
         });
     }
+    
 
     function updateDashboardValues() {
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
         const suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
         const totalExpenditure = bills.reduce((sum, bill) => sum + parseFloat(bill.amount), 0);
         const totalBillPaid = bills.length;
-        const remainingBalance = 60000 - totalExpenditure; // Assuming budget is 10000
+        const remainingBalance = 60000 - totalExpenditure; // Assuming budget is 60000
 
         noOfBillsElement.textContent = bills.length;
         noOfSuppliersElement.textContent = suppliers.length;
@@ -316,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Event Listeners
+    // Event Listeners for Adding Items
     addMoreItemsButton.addEventListener('click', () => {
         const newItemRow = document.createElement('div');
         newItemRow.classList.add('item-row');
@@ -344,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateTotal();
     });
 
+    // Image Preview Functionality
     billImage.addEventListener('change', () => {
         const file = billImage.files[0];
         if (file) {
@@ -387,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingSpinnerBill.style.display = 'none';
             updateDashboardValues();
             displayBills();
-            
+
             alert('Bill added successfully!');
             showSection(dashboardSection);
             setActiveLink(dashboardLink);
@@ -483,19 +543,19 @@ document.addEventListener('DOMContentLoaded', () => {
     filterSelect.addEventListener('change', searchBillsFunction);
     searchInput.addEventListener('input', searchBillsFunction);
 
-    // Items Section Event Listener for calculating total
+    // Items Section Event Listener for Calculating Total
     itemsSection.addEventListener('input', (event) => {
-        if (event.target.classList.contains('item-quantity') || 
+        if (event.target.classList.contains('item-quantity') ||
             event.target.classList.contains('item-price')) {
             calculateTotal();
         }
     });
 
-    // Export functionality
+    // Export Functionality
     function exportData() {
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
         const suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
-        
+
         const data = {
             bills: bills,
             suppliers: suppliers,
@@ -505,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataStr = JSON.stringify(data, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(dataBlob);
-        
+
         const link = document.createElement('a');
         link.href = url;
         link.download = `billwise_export_${new Date().toISOString().split('T')[0]}.json`;
@@ -515,16 +575,16 @@ document.addEventListener('DOMContentLoaded', () => {
         URL.revokeObjectURL(url);
     }
 
-    // Import functionality
+    // Import Functionality
     async function importData(file) {
         try {
             const text = await file.text();
             const data = JSON.parse(text);
-            
+
             if (data.bills && Array.isArray(data.bills)) {
                 localStorage.setItem('bills', JSON.stringify(data.bills));
             }
-            
+
             if (data.suppliers && Array.isArray(data.suppliers)) {
                 localStorage.setItem('suppliers', JSON.stringify(data.suppliers));
             }
@@ -539,7 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Add event listener for file import
+    // Add Event Listener for File Import
     const importInput = document.getElementById('importInput');
     if (importInput) {
         importInput.addEventListener('change', (event) => {
@@ -550,33 +610,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add event listener for export
+    // Add Event Listener for Export
     const exportButton = document.getElementById('exportButton');
     if (exportButton) {
         exportButton.addEventListener('click', exportData);
     }
 
-    // Error handling function
+    // Error Handling Function
     function handleError(error, context) {
         console.error(`Error in ${context}:`, error);
         alert(`An error occurred while ${context}. Please try again.`);
     }
 
-    // Data validation functions
+    // Data Validation Functions
     function validateBillData(billData) {
-        return billData.shopName && 
-               billData.amount && 
-               !isNaN(parseFloat(billData.amount)) && 
-               billData.billDate;
+        return billData.shopName &&
+            billData.amount &&
+            !isNaN(parseFloat(billData.amount)) &&
+            billData.billDate;
     }
 
     function validateSupplierData(supplierData) {
-        return supplierData.supplierName && 
-               supplierData.supplierContact && 
-               supplierData.supplierShop;
+        return supplierData.supplierName &&
+            supplierData.supplierContact &&
+            supplierData.supplierShop;
     }
 
-    // Initialize tooltips
+    // Initialize Tooltips
     const tooltips = document.querySelectorAll('[data-tooltip]');
     tooltips.forEach(tooltip => {
         tooltip.addEventListener('mouseover', (e) => {
@@ -584,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tip.className = 'tooltip';
             tip.textContent = e.target.dataset.tooltip;
             document.body.appendChild(tip);
-            
+
             const rect = e.target.getBoundingClientRect();
             tip.style.top = rect.bottom + 'px';
             tip.style.left = rect.left + 'px';
@@ -596,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial setup
+    // Initial Setup
     function initialize() {
         try {
             updateDashboardValues();
@@ -615,6 +675,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Call initialize function when the page loads
+    // Call Initialize Function When the Page Loads
     initialize();
 });
