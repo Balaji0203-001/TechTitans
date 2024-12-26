@@ -10,32 +10,23 @@
     <link rel="icon" href="LOGO.png" type="image/x-icon">
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="dashboard-header">
-        <div class="container">
-            <h2 class="Tech">TECH TITANS</h2>
-            <div class="user-menu">
-                <div class="user-info" id="user-info-toggle">
-                    <img src="icon.webp" alt="User Icon">
-                    <span>Balaji Suryawanshi</span>
-                </div>
-                <div class="dropdown" id="user-dropdown">
-                    <a href="#" id="profile-link">My Profile</a>
-                    <a href="#" id="password-link">Change Password</a>
-                    <a href="#" id="logout-link">Logout</a>
-                </div>
-            </div>
+    <div class="search-bar">
+        <input type="text" placeholder="Type here...">
+        <div class="icon">
+            <i class="fas fa-star"></i> 
         </div>
-        <div id="toast" class="toast">
-            <div class="toast-content" id="toast-content"></div>
+        <div class="icon">
+            <i class="fas fa-bell"></i>
         </div>
-    </header>
-
+        <div class="icon">
+            <i class="fas fa-user"></i>
+        </div>
+    </div>
     <!-- Main Container -->
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar animate__animated animate__fadeInLeft">
-            <h2>Menu</h2>
+            <h2 class="bar">TECH TITANS </h2>
             <ul>
                 <li><a href="#" id="dashboardLink" class="active"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
                 <li><a href="#" id="viewBills"><i class="fas fa-file-invoice"></i> <span>View Bills</span></a></li>
@@ -245,5 +236,6 @@
 
     <!-- Scripts -->
     <script src="dashboard.js"></script>
+    
 </body>
 </html>
