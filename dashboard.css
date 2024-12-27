@@ -12,9 +12,21 @@ body {
 }
 
 .bar {
-  padding-bottom: 10px;
-  border-bottom: 2px solid #0b0101;
-  /* margin: auto; */
+  display: flex;
+  align-items: center;  /* Vertically align the logo and text */
+  font-size: 24px;
+  font-weight: bold;
+  color: #050300;
+  gap: 10px;  /* Space between logo and text */
+}
+
+.bar img {
+  height: 80px;  /* Adjust size of the logo */
+  width: auto;  /* Maintain aspect ratio */
+}
+
+.bar span {
+  white-space: nowrap;  /* Prevent the text from wrapping */
 }
 
 .sidebar {
@@ -254,14 +266,15 @@ table tbody tr:hover {
   width: 400px; /* Reduce the overall width */
   box-sizing: border-box;
 }
-
 .search-bar input {
   flex-grow: 1; /* Ensure the input adjusts within the smaller width */
   padding: 5px;
   width: 100%; /* Occupy available space */
-  border: none;
-  outline: none;
+  border: 1px solid #ccc; /* Add a light gray border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  outline: none; /* Remove default focus outline */
 }
+
 
 
 .icon {
