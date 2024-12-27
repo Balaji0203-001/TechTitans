@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addBillButtonLink = document.getElementById('addBillButton');
     const logoutButton = document.getElementById('logoutButton');
     const dashboardLink = document.getElementById('dashboardLink');
+
     const billSection = document.getElementById('billSection');
     const totalsSection = document.getElementById('totalsSection');
     const searchSection = document.getElementById('searchSection');
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const supplierSection = document.getElementById('supplierSection');
     const dashboardSection = document.getElementById('dashboardSection');
     const sections = [billSection, totalsSection, searchSection, addBillSection, addSupplierSection, supplierSection, dashboardSection];
+
     // Form and input elements
     const addBillForm = document.getElementById('addBillForm');
     const addSupplierForm = document.getElementById('addSupplierForm');
@@ -26,13 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreview = document.getElementById('imagePreview');
     const searchInput = document.querySelector('.search-input');
     const filterSelect = document.querySelector('.filter-select');
+
     // Table body elements
     const billsTableBody = document.getElementById('billsTableBody');
     const suppliersTableBody = document.getElementById('suppliersTableBody');
     const searchResultsTableBody = document.getElementById('searchResults');
+
     // Loading spinners
     const loadingSpinnerBill = document.getElementById('loadingSpinnerBill');
     const loadingSpinnerSupplier = document.getElementById('loadingSpinnerSupplier');
+
     // Dashboard elements
     const noOfBillsElement = document.getElementById('noOfBills');
     const noOfSuppliersElement = document.getElementById('noOfSuppliers');
@@ -40,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalExpenditureElement = document.getElementById('totalExpenditure');
     const remainingBalanceElement = document.getElementById('remainingBalance');
     const totalAmountDisplay = document.getElementById('totalAmount');
+
     // Add Modal HTML
     const modalHTML = `
     <div id="itemsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
@@ -50,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+
     // Add styles for new buttons
     const style = document.createElement('style');
     style.textContent = `
@@ -67,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(style);
+
     // Helper Functions
     function showSection(sectionToShow) {
         sections.forEach(section => {
@@ -79,11 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
             sectionToShow.classList.remove('animate__animated', 'animate__fadeIn');
         }, { once: true });
     }
+
     function setActiveLink(activeLink) {
         const sidebarLinks = document.querySelectorAll('.sidebar a');
         sidebarLinks.forEach(link => link.classList.remove('active'));
         activeLink.classList.add('active');
     }
+
     function calculateTotal() {
         let total = 0;
         const itemRows = itemsSection.querySelectorAll('.item-row');
@@ -94,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         amountInput.value = total.toFixed(2);
     }
+
     // Display Functions
     function showItems(items) {
         const modal = document.getElementById('itemsModal');
@@ -121,10 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">₹${total.toFixed(2)}</td>
                 </tr>`;
         });
+
         itemsHTML += '</tbody></table>';
         itemsList.innerHTML = itemsHTML;
         modal.style.display = 'block';
     }
+
     function displayBills() {
         billsTableBody.innerHTML = '';
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
@@ -136,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const amountCell = row.insertCell();
             const dateCell = row.insertCell();
             const actionsCell = row.insertCell();
+
             shopCell.textContent = bill.shopName;
             paidByCell.textContent = bill.paidBy;
             returnPaidByCell.textContent = bill.returnPaidBy || "-";
@@ -150,9 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fas fa-trash"></i> Delete
                 </button>`;
         });
+
         attachBillDeleteListeners();
         attachViewItemsListeners();
     }
+
     function displaySuppliers() {
         suppliersTableBody.innerHTML = '';
         const suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
@@ -163,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const shopCell = row.insertCell();
             const addressCell = row.insertCell();
             const actionsCell = row.insertCell();
+
             nameCell.textContent = supplier.supplierName;
             contactCell.textContent = supplier.supplierContact;
             shopCell.textContent = supplier.supplierShop;
@@ -175,12 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <i class="fas fa-trash"></i> Delete
                 </button>`;
         });
+
         attachSupplierDeleteListeners();
     }
+
     function searchBillsFunction() {
         const searchTerm = searchInput.value.toLowerCase();
         const filterValue = filterSelect.value;
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
+
         const filteredBills = bills.filter(bill => {
             let dateFilterCondition = true;
             if (filterValue !== 'all') {
@@ -196,8 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 dateFilterCondition
             );
         });
+
         displaySearchResults(filteredBills);
     }
+
     function displaySearchResults(bills) {
         searchResultsTableBody.innerHTML = "";
         bills.forEach(bill => {
@@ -205,28 +227,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const shopCell = row.insertCell();
             const amountCell = row.insertCell();
             const dateCell = row.insertCell();
+
             shopCell.textContent = bill.shopName;
             amountCell.textContent = `₹${parseFloat(bill.amount).toFixed(2)}`;
             dateCell.textContent = bill.billDate;
         });
     }
+
     function updateDashboardValues() {
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
         const suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
         const totalExpenditure = bills.reduce((sum, bill) => sum + parseFloat(bill.amount), 0);
         const totalBillPaid = bills.length;
         const remainingBalance = 10000 - totalExpenditure; // Assuming budget is 10000
+
         noOfBillsElement.textContent = bills.length;
         noOfSuppliersElement.textContent = suppliers.length;
         totalBillPaidElement.textContent = totalBillPaid;
         totalExpenditureElement.textContent = `₹${totalExpenditure.toFixed(2)}`;
         remainingBalanceElement.textContent = `₹${remainingBalance.toFixed(2)}`;
     }
+
     function showTotalsFunction() {
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
         const totalAmount = bills.reduce((sum, bill) => sum + parseFloat(bill.amount), 0);
         totalAmountDisplay.textContent = `Total Amount: ₹${totalAmount.toFixed(2)}`;
     }
+
     // Event Listener Attachment Functions
     function attachBillDeleteListeners() {
         const deleteButtons = document.querySelectorAll('#billsTableBody .delete-button');
@@ -243,10 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
     function attachViewItemsListeners() {
         const viewButtons = document.querySelectorAll('.view-items-button');
         const modal = document.getElementById('itemsModal');
         const closeBtn = document.querySelector('.close');
+
         viewButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const index = parseInt(button.dataset.index);
@@ -259,15 +288,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
         closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
+
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
     }
+
     function attachSupplierDeleteListeners() {
         const deleteButtons = document.querySelectorAll('#suppliersTableBody .delete-button');
         deleteButtons.forEach(button => {
@@ -283,6 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
     // Event Listeners
     addMoreItemsButton.addEventListener('click', () => {
         const newItemRow = document.createElement('div');
@@ -296,17 +329,21 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
         `;
         itemsSection.appendChild(newItemRow);
+
         const quantityInput = newItemRow.querySelector('.item-quantity');
         const priceInput = newItemRow.querySelector('.item-price');
         quantityInput.addEventListener('input', calculateTotal);
         priceInput.addEventListener('input', calculateTotal);
+
         const removeButton = newItemRow.querySelector('.remove-item-button');
         removeButton.addEventListener('click', () => {
             newItemRow.remove();
             calculateTotal();
         });
+
         calculateTotal();
     });
+
     billImage.addEventListener('change', () => {
         const file = billImage.files[0];
         if (file) {
@@ -319,10 +356,12 @@ document.addEventListener('DOMContentLoaded', () => {
             imagePreview.innerHTML = '';
         }
     });
+
     // Form Submission Handlers
     addBillForm.addEventListener('submit', (event) => {
         event.preventDefault();
         loadingSpinnerBill.style.display = 'block';
+
         setTimeout(() => {
             const billData = {
                 shopName: document.getElementById('shopName').value,
@@ -336,9 +375,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     price: row.querySelector('.item-price').value
                 }))
             };
+
             let bills = JSON.parse(localStorage.getItem('bills')) || [];
             bills.push(billData);
             localStorage.setItem('bills', JSON.stringify(bills));
+
             addBillForm.reset();
             itemsSection.innerHTML = '';
             imagePreview.innerHTML = '';
@@ -352,9 +393,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setActiveLink(dashboardLink);
         }, 1000);
     });
+
     addSupplierForm.addEventListener('submit', (event) => {
         event.preventDefault();
         loadingSpinnerSupplier.style.display = 'block';
+
         setTimeout(() => {
             const supplierData = {
                 supplierName: document.getElementById('supplierName').value,
@@ -362,18 +405,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 supplierShop: document.getElementById('supplierShop').value,
                 supplierAddress: document.getElementById('supplierAddress').value
             };
+
             let suppliers = JSON.parse(localStorage.getItem('suppliers')) || [];
             suppliers.push(supplierData);
             localStorage.setItem('suppliers', JSON.stringify(suppliers));
+
             addSupplierForm.reset();
             loadingSpinnerSupplier.style.display = 'none';
             updateDashboardValues();
             displaySuppliers();
+
             alert('Supplier added successfully!');
             showSection(dashboardSection);
             setActiveLink(dashboardLink);
         }, 1000);
     });
+
     // Navigation Event Listeners
     viewBillsLink.addEventListener('click', (event) => {
         event.preventDefault();
@@ -381,51 +428,61 @@ document.addEventListener('DOMContentLoaded', () => {
         setActiveLink(viewBillsLink);
         displayBills();
     });
+
     searchBillsLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(searchSection);
         setActiveLink(searchBillsLink);
         searchBillsFunction();
     });
+
     addSupplierLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(addSupplierSection);
         setActiveLink(addSupplierLink);
     });
+
     viewSuppliersLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(supplierSection);
         setActiveLink(viewSuppliersLink);
         displaySuppliers();
     });
+
     showTotalsLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(totalsSection);
         setActiveLink(showTotalsLink);
         showTotalsFunction();
     });
+
     addBillButtonLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(addBillSection);
         setActiveLink(addBillButtonLink);
     });
+
     dashboardLink.addEventListener('click', (event) => {
         event.preventDefault();
         showSection(dashboardSection);
         setActiveLink(dashboardLink);
         updateDashboardValues();
     });
+
     logoutButton.addEventListener('click', () => {
         logoutButton.disabled = true;
         const originalText = logoutButton.textContent;
         logoutButton.textContent = "Logging Out...";
+
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 500);
     });
+
     // Search and Filter Event Listeners
     filterSelect.addEventListener('change', searchBillsFunction);
     searchInput.addEventListener('input', searchBillsFunction);
+
     // Items Section Event Listener for calculating total
     itemsSection.addEventListener('input', (event) => {
         if (event.target.classList.contains('item-quantity') || 
@@ -433,6 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
             calculateTotal();
         }
     });
+
     // Export functionality
     function exportData() {
         const bills = JSON.parse(localStorage.getItem('bills')) || [];
@@ -443,6 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
             suppliers: suppliers,
             exportDate: new Date().toISOString()
         };
+
         const dataStr = JSON.stringify(data, null, 2);
         const dataBlob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(dataBlob);
@@ -455,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
+
     // Import functionality
     async function importData(file) {
         try {
@@ -468,6 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.suppliers && Array.isArray(data.suppliers)) {
                 localStorage.setItem('suppliers', JSON.stringify(data.suppliers));
             }
+
             updateDashboardValues();
             displayBills();
             displaySuppliers();
@@ -477,6 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Import error:', error);
         }
     }
+
     // Add event listener for file import
     const importInput = document.getElementById('importInput');
     if (importInput) {
@@ -487,16 +549,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     // Add event listener for export
     const exportButton = document.getElementById('exportButton');
     if (exportButton) {
         exportButton.addEventListener('click', exportData);
     }
+
     // Error handling function
     function handleError(error, context) {
         console.error(`Error in ${context}:`, error);
         alert(`An error occurred while ${context}. Please try again.`);
     }
+
     // Data validation functions
     function validateBillData(billData) {
         return billData.shopName && 
@@ -504,11 +569,13 @@ document.addEventListener('DOMContentLoaded', () => {
                !isNaN(parseFloat(billData.amount)) && 
                billData.billDate;
     }
+
     function validateSupplierData(supplierData) {
         return supplierData.supplierName && 
                supplierData.supplierContact && 
                supplierData.supplierShop;
     }
+
     // Initialize tooltips
     const tooltips = document.querySelectorAll('[data-tooltip]');
     tooltips.forEach(tooltip => {
@@ -522,11 +589,13 @@ document.addEventListener('DOMContentLoaded', () => {
             tip.style.top = rect.bottom + 'px';
             tip.style.left = rect.left + 'px';
         });
+
         tooltip.addEventListener('mouseout', () => {
             const tips = document.querySelectorAll('.tooltip');
             tips.forEach(tip => tip.remove());
         });
     });
+
     // Initial setup
     function initialize() {
         try {
@@ -535,6 +604,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySuppliers();
             showSection(dashboardSection);
             setActiveLink(dashboardLink);
+
             // Set default date to today for new bills
             const billDateInput = document.getElementById('billDate');
             if (billDateInput) {
@@ -544,6 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
             handleError(error, 'initializing application');
         }
     }
+
     // Call initialize function when the page loads
     initialize();
 });
