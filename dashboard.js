@@ -322,8 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
         newItemRow.classList.add('item-row');
         newItemRow.innerHTML = `
             <input type="text" class="item-name" placeholder="Item Name" required>
-            <input type="number" class="item-quantity" placeholder="Quantity" value="1" required>
-            <input type="number" class="item-price" placeholder="Price per item" value="0" required>
+            <input type="number" class="item-quantity" placeholder="Quantity"  required>
+            <input type="number" class="item-price" placeholder="Price per item"  required>
             <button type="button" class="remove-item-button">
                 <i class="fas fa-times"></i>
             </button>
