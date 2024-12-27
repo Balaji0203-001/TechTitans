@@ -55,7 +55,7 @@ body {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-  background-color: rgb(24, 21, 21);
+  background-color: rgb(24, 23, 21);
   color: white;
 }
 
@@ -167,14 +167,14 @@ table tbody tr:hover {
 }
 
 .form-group input, .form-group select, .form-group textarea {
-  width: 100%;
+  width: 98%;
   padding: 10px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
 }
 
 .action-button {
-  background-color: #007bff;
+  background-color: #141415;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -184,7 +184,7 @@ table tbody tr:hover {
 }
 
 .action-button:hover {
-  background-color: #0056b3;
+  background-color: #f4830b;
 }
 
 .spinner {
@@ -238,14 +238,15 @@ table tbody tr:hover {
 }
 
 .search-bar {
-  position: relative;
+  position: static;
   display: flex;
   align-items: end;
   padding: 15px;
-  margin-left: 960px;
+  margin-left: 1100px;
   width: 100px;
   justify-content: space-between;
   box-sizing: border-box;
+  /* border: 1px solid #532020; */
 }
 
 .search-bar input {
@@ -259,4 +260,69 @@ table tbody tr:hover {
   margin-right: 10px;
   cursor: pointer;
   margin-left: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .sidebar ul {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 1rem;
+  }
+
+  .sidebar li {
+    margin: 0;
+  }
+
+  .sidebar a {
+    padding: 0.75rem 0.5rem;
+    flex-direction: column;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .sidebar i {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar span {
+    display: block;
+    font-size: 0.7rem;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .item-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 400px) {
+  .sidebar a {
+    min-width: 60px;
+  }
 }
