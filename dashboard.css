@@ -28,6 +28,7 @@ body {
   width: 150px; /* Adjust the image size */
   height: 150px; /* Maintain the image's aspect ratio */
   /* border-radius: 50%; Optional: Add rounded corners */
+  margin-right: 40px;
 }
 
 body {
