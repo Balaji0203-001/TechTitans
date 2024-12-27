@@ -46,6 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const remainingBalanceElement = document.getElementById('remainingBalance');
     const totalAmountDisplay = document.getElementById('totalAmount');
 
+
+    const profileIcon = document.querySelector('.profile-icon');
+    const profileDropdown = document.querySelector('.profile-dropdown');
+    const profileToast = document.getElementById('profileToast');
+    const passwordToast = document.getElementById('passwordToast');
+    const passwordModal = document.getElementById('passwordModal');
+    const closeModal = document.getElementById('closeModal');
+    const savePassword = document.getElementById('savePassword');
+    const logoutLink = document.getElementById('logout');
+
     // Add Modal HTML
     const modalHTML = `
     <div id="itemsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
@@ -316,7 +326,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function showToast(toastElement, message) {
+        toastElement.querySelector('p').textContent = message;
+        toastElement.classList.add('show-toast');
+        setTimeout(function() {
+            toastElement.classList.remove('show-toast');
+        }, 3000);
+    }
+
+    function showModal(modalElement) {
+        modalElement.classList.add('show-modal');
+    }
+
+    function hideModal(modalElement) {
+        modalElement.classList.remove('show-modal');
+    }
+
     // Event Listeners
+
+    profileIcon.addEventListener('click', function() {
+        profileDropdown.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!profileIcon.contains(event.target) && !profileDropdown.contains(event.target)) {
+            profileDropdown.classList.remove('show');
+        }
+    });
+
+    document.getElementById('view-profile').addEventListener('click', function(event) {
+        event.preventDefault();
+        showToast(profileToast, 'Profile information loaded: John Doe, johndoe@example.com');
+    });
+
+    document.getElementById('change-password').addEventListener('click', function(event) {
+        event.preventDefault();
+        showModal(passwordModal);
+    });
+
+    closeModal.addEventListener('click', function() {
+        hideModal(passwordModal);
+    });
+
+    savePassword.addEventListener('click', function() {
+        hideModal(passwordModal);
+        showToast(passwordToast, 'Password changed successfully!');
+    });
+
+    logoutLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = 'index.html';
+    });
+
     addMoreItemsButton.addEventListener('click', () => {
         const newItemRow = document.createElement('div');
         newItemRow.classList.add('item-row');

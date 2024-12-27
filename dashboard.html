@@ -227,6 +227,33 @@
             <div id="itemsList"></div>
         </div>
     </div>
+    <div class="profile-icon">
+        <img src="icon.webp" alt="Profile" width="30" height="30">
+    </div>
+
+    <div class="profile-dropdown">
+        <a href="#" id="view-profile">View Profile</a>
+        <a href="#" id="change-password">Change Password</a>
+        <a href="index.html" id="logout">Logout</a>
+    </div>
+
+    <div class="toast" id="profileToast">
+        <p>Profile information loaded</p>
+    </div>
+
+    <div class="toast" id="passwordToast">
+        <p>Password changed successfully!</p>
+    </div>
+
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Change Password</h2>
+            <input type="password" id="newPassword" placeholder="New Password"><br><br>
+            <button id="savePassword">Save</button>
+        </div>
+    </div>
+
 
     <!-- Scripts -->
     <script src="dashboard.js"></script>
