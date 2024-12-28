@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('view-profile').addEventListener('click', function(event) {
         event.preventDefault();
-        showToast(profileToast, 'Profile information loaded: John Doe, johndoe@example.com');
+        showToast(profileToast, ' TECH TITANS ');
     });
 
     document.getElementById('change-password').addEventListener('click', function(event) {
