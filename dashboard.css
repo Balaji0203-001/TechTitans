@@ -217,6 +217,7 @@ body {
 
 .main-content {
   margin-left: 250px;
+  margin-top: 80px;
   padding: 20px;
   width: calc(100% - 270px);
 }
@@ -395,17 +396,20 @@ table tbody tr:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+  
 }
 .search-bar {
-  position: static;
+  position: fixed; /* Fix the position relative to the viewport */
+  top: 5px; /* Distance from the top edge */
+  right: 40px; /* Distance from the right edge */
   display: flex;
   justify-content: flex-end; /* Ensure the search bar aligns to the right */
-  padding: 15px;
-  margin-left: auto; /* Push to the right */
   width: 300px; /* Reduce the overall width */
-  box-sizing: border-box;
-  margin-right: 40px;
+  padding: 10px; /* Add some padding */
+  margin-left: 100px;
+  z-index: 1000; /* Ensure it stays on top of other elements */
 }
+
 .search-bar input {
   flex-grow: 1; /* Ensure the input adjusts within the smaller width */
   padding: 5px;
