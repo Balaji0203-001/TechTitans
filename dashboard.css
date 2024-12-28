@@ -26,8 +26,7 @@ body {
 
 .bar img {
   width: 150px; /* Adjust the image size */
-  height: 150px; /* Maintain the image's aspect ratio */
-  /* border-radius: 50%; Optional: Add rounded corners */
+  height: 150px; /* Maintain the image's aspect ratio */ 
   margin-right: 40px;
 }
 
@@ -399,15 +398,16 @@ table tbody tr:hover {
   justify-content: flex-end; /* Ensure the search bar aligns to the right */
   padding: 15px;
   margin-left: auto; /* Push to the right */
-  width: 400px; /* Reduce the overall width */
+  width: 300px; /* Reduce the overall width */
   box-sizing: border-box;
+  margin-right: 40px;
 }
 .search-bar input {
   flex-grow: 1; /* Ensure the input adjusts within the smaller width */
   padding: 5px;
   width: 100%; /* Occupy available space */
   border: 1px solid #ccc; /* Add a light gray border */
-  border-radius: 4px; /* Optional: Add rounded corners */
+  border-radius: 40px; /* Optional: Add rounded corners */
   outline: none; /* Remove default focus outline */
 }
 
@@ -515,7 +515,7 @@ table tbody tr:hover {
   }
 
   .search-bar input {
-    width: 100%;
+    width: 92%;
   }
 }
 
