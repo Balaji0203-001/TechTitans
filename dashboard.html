@@ -4,260 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill Management Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="icon" href="LOGO.png" type="image/x-icon">
 </head>
 <body>
-    <div class="search-bar">
-        <input type="text" placeholder="Search here...">
-    </div>
-    <!-- Main Container -->
-    <div class="dashboard-container">
+    <div class="dashboard-wrapper">
+        <!-- Mobile Navigation Toggle -->
+        <button class="mobile-nav-toggle" aria-controls="sidebar" aria-expanded="false">
+            <span class="sr-only">Menu</span>
+            <i class="fas fa-bars"></i>
+        </button>
+
         <!-- Sidebar -->
-        <aside class="sidebar animate__animated animate__fadeInLeft">
-            <h2 class="bar">
-                <img src="LOGO.png" alt="Tech Titans Logo">
-              </h2>
-              
-            <ul>
-                <li><a href="#" id="dashboardLink" class="active"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a></li>
-                <li><a href="#" id="viewBills"><i class="fas fa-file-invoice"></i> <span>View Bills</span></a></li>
-                <li><a href="#" id="searchBills"><i class="fas fa-search"></i> <span>Search Bills</span></a></li>
-                <li><a href="#" id="addSupplier"><i class="fas fa-truck-loading"></i> <span>Add Supplier</span></a></li>
-                <li><a href="#" id="viewSuppliers"><i class="fas fa-warehouse"></i> <span>View Suppliers</span></a></li>
-                <li><a href="#" id="showTotals"><i class="fas fa-chart-line"></i> <span>Show Totals</span></a></li>
-                <li><a href="#" id="addBillButton"><i class="fas fa-plus-circle"></i> <span>Add New Bill</span></a></li>
-            </ul>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="LOGO.png" alt="Tech Titans Logo" class="logo">
+                <button class="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="bills">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>View Bills</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="search">
+                        <i class="fas fa-search"></i>
+                        <span>Search Bills</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="add-supplier">
+                        <i class="fas fa-truck-loading"></i>
+                        <span>Add Supplier</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="suppliers">
+                        <i class="fas fa-warehouse"></i>
+                        <span>View Suppliers</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="totals">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Show Totals</span>
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-section="add-bill">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add New Bill</span>
+                    </a></li>
+                </ul>
+            </nav>
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content animate__animated animate__fadeIn">
-            <!-- Dashboard Section -->
-            <section class="card dashboard-section" id="dashboardSection">
-                <div class="card-header">
-                    <h2 class="card-title">Dashboard</h2>
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-content">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <div class="header-actions">
+                        <div class="search-container">
+                            <input type="text" placeholder="Search..." class="search-input">
+                            <button class="search-btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="profile-dropdown">
+                            <button class="profile-btn">
+                                <img src="icon.webp" alt="Profile" class="profile-img">
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>View Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-key"></i>
+                                    <span>Change Password</span>
+                                </a>
+                                <a href="index.html" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="dashboard-grid">
-                    <div class="dashboard-box">
-                        <i class="fas fa-file-invoice"></i>
-                        <span class="box-title">No. of Bills</span><br>
-                        <span class="box-value" id="noOfBills">0</span>
-                    </div>
-                    <div class="dashboard-box">
-                        <i class="fas fa-warehouse"></i>
-                        <span class="box-title">No. of Suppliers</span><br>
-                        <span class="box-value" id="noOfSuppliers">0</span>
-                    </div>
-                    <div class="dashboard-box">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span class="box-title">Total Bill Paid</span><br>
-                        <span class="box-value" id="totalBillPaid">0</span>
-                    </div>
-                    <div class="dashboard-box">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="box-title">Total Expenditure</span><br>
-                        <span class="box-value" id="totalExpenditure">0</span>
-                    </div>
-                    <div class="dashboard-box">
-                        <i class="fas fa-wallet"></i>
-                        <span class="box-title">Remaining Balance</span><br>
-                        <span class="box-value" id="remainingBalance">0</span>
-                    </div>
-                </div>
-            </section>
+            </header>
 
-            <!-- Bills Section -->
-            <section class="card bill-section" id="billSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Your Bills</h2>
+            <div class="dashboard-content">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-label">Total Bills</h3>
+                            <p class="stat-value" id="noOfBills">0</p>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>55% than last week</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-label">Total Paid</h3>
+                            <p class="stat-value" id="totalBillPaid">0</p>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>3% than last month</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-label">Suppliers</h3>
+                            <p class="stat-value" id="noOfSuppliers">0</p>
+                            <p class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>2% than yesterday</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-label">Total Expenditure</h3>
+                            <p class="stat-value" id="totalExpenditure">0</p>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>5% than yesterday</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Shop Name</th>
-                                <th>Paid By</th>
-                                <th>Return Paid By</th>
-                                <th>Amount</th>
-                                <th>Bill Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="billsTableBody"></tbody>
-                    </table>
-                </div>
-            </section>
 
-            <!-- Totals Section -->
-            <section class="card totals-section" id="totalsSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Bill Totals</h2>
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Website Views</h3>
+                        <div class="chart-content" id="websiteViewsChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3 class="chart-title">Daily Sales</h3>
+                        <div class="chart-content" id="dailySalesChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3 class="chart-title">Completed Tasks</h3>
+                        <div class="chart-content" id="tasksChart"></div>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <p id="totalAmount"></p>
-                </div>
-            </section>
 
-            <!-- Search Section -->
-            <section class="card search-section" id="searchSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Search Bills</h2>
-                </div>
-                <div class="search-controls">
-                    <input type="text" class="search-input" placeholder="Search bills...">
-                    <select class="filter-select">
-                        <option value="all">All Dates</option>
-                        <option value="7">Last 7 days</option>
-                        <option value="30">Last 30 days</option>
-                        <option value="90">Last 90 days</option>
-                    </select>
-                </div>
-                <div class="card-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Shop Name</th>
-                                <th>Amount</th>
-                                <th>Bill Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="searchResults"></tbody>
-                    </table>
-                </div>
-            </section>
+                <!-- Activity Section -->
+                <div class="activity-grid">
+                    <div class="card projects-card">
+                        <h3 class="card-title">Recent Projects</h3>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <span class="number">30</span>
+                                <span class="label">Completed</span>
+                            </div>
+                            <div class="stat">
+                                <span class="number">12</span>
+                                <span class="label">In Progress</span>
+                            </div>
+                        </div>
+                        <div class="project-list">
+                            <!-- Project items will be added dynamically -->
+                        </div>
+                    </div>
 
-            <!-- Add Bill Section -->
-            <section class="card add-bill-section" id="addBillSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Add New Bill</h2>
+                    <div class="card orders-card">
+                        <h3 class="card-title">Orders Overview</h3>
+                        <div class="orders-stats">
+                            <p class="trend">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>24% this month</span>
+                            </p>
+                        </div>
+                        <div class="orders-list">
+                            <!-- Order items will be added dynamically -->
+                        </div>
+                    </div>
                 </div>
-                <form id="addBillForm" class="card-content">
-                    <div class="form-group">
-                        <label for="shopName">Shop Name:</label>
-                        <input type="text" id="shopName" name="shopName" required>
-                    </div>
-                    <div class="form-group">
-                        <h3>Items</h3>
-                        <div id="itemsSection"></div>
-                        <button type="button" id="addMoreItemsButton" class="action-button">Add More Items</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount:</label>
-                        <input type="number" id="amount" name="amount" value="0" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="paidBy">Paid By:</label>
-                        <input type="text" id="paidBy" name="paidBy" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="returnPaidBy">Return Paid By:</label>
-                        <input type="text" id="returnPaidBy" name="returnPaidBy">
-                    </div>
-                    <div class="form-group">
-                        <label for="billDate">Bill Date:</label>
-                        <input type="date" id="billDate" name="billDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="billImage">Bill Image:</label>
-                        <input type="file" id="billImage" name="billImage" accept="image/*">
-                        <div id="imagePreview"></div>
-                    </div>
-                    <button type="submit">Add Bill</button>
-                    <div id="loadingSpinnerBill" class="spinner" style="display:none;"></div>
-                </form>
-            </section>
-
-            <!-- Add Supplier Section -->
-            <section class="card add-supplier-section" id="addSupplierSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Add New Supplier</h2>
-                </div>
-                <form id="addSupplierForm" class="card-content">
-                    <div class="form-group">
-                        <label for="supplierName">Supplier Name:</label>
-                        <input type="text" id="supplierName" name="supplierName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="supplierContact">Supplier Contact:</label>
-                        <input type="text" id="supplierContact" name="supplierContact" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="supplierShop">Supplier Shop Name:</label>
-                        <input type="text" id="supplierShop" name="supplierShop" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="supplierAddress">Address (Google Map Link):</label>
-                        <input type="text" id="supplierAddress" name="supplierAddress">
-                    </div>
-                    <button type="submit">Add Supplier</button>
-                    <div id="loadingSpinnerSupplier" class="spinner" style="display:none;"></div>
-                </form>
-            </section>
-
-            <!-- Supplier Section -->
-            <section class="card supplier-section" id="supplierSection" style="display:none;">
-                <div class="card-header">
-                    <h2 class="card-title">Suppliers</h2>
-                </div>
-                <div class="card-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Supplier Name</th>
-                                <th>Contact</th>
-                                <th>Shop Name</th>
-                                <th>Address</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="suppliersTableBody"></tbody>
-                    </table>
-                </div>
-            </section>
+            </div>
         </main>
     </div>
 
-    <!-- Items Modal -->
-    <div id="itemsModal" class="modal">
+    <!-- Modals -->
+    <div class="modal" id="passwordModal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Bill Items</h2>
-            <div id="itemsList"></div>
-        </div>
-    </div>
-    <div class="profile-icon">
-        <img src="icon.webp" alt="Profile" width="30" height="30">
-        <br>
-    </div>
-
-    <div class="profile-dropdown">
-        <a href="#" id="view-profile">View Profile</a>
-        <a href="#" id="change-password">Change Password</a>
-        <a href="index.html" id="logout">Logout</a>
-    </div>
-
-    <div class="toast" id="profileToast">
-        <p>Profile information loaded</p>
-    </div>
-
-    <div class="toast" id="passwordToast">
-        <p>Password changed successfully!</p>
-    </div>
-
-    <div id="passwordModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Change Password</h2>
-            <input type="password" id="newPassword" placeholder="New Password"><br><br>
-            <button id="savePassword">Save</button>
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
         </div>
     </div>
 
+    <div class="toast" id="successToast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <p class="toast-message"></p>
+        </div>
+    </div>
 
-    <!-- Scripts -->
     <script src="dashboard.js"></script>
-    
 </body>
 </html>
